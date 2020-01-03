@@ -20,37 +20,37 @@ using System.Data.Common;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     Represents the method that will handle the RowUpdating event of a BigQueryDataAdapter.
+    /// Represents the method that will handle the RowUpdating event of a BigQueryDataAdapter.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">A BigQueryRowUpdatingEventArgs object containing event data.</param>
     public delegate void BigQueryRowUpdatingEventHandler(object sender, BigQueryRowUpdatingEventArgs e);
 
     /// <summary>
-    ///     Represents the method that will handle the RowUpdated event of a BigQueryDataAdapter.
+    /// Represents the method that will handle the RowUpdated event of a BigQueryDataAdapter.
     /// </summary>
     /// <param name="sender">The source of the event. </param>
     /// <param name="e">A BigQueryRowUpdatedEventArgs object containing event data.</param>
     public delegate void BigQueryRowUpdatedEventHandler(object sender, BigQueryRowUpdatedEventArgs e);
 
     /// <summary>
-    ///     Provides access to data connections and commands used to operate with a BigQuery data source.
+    /// Provides access to data connections and commands used to operate with a BigQuery data source.
     /// </summary>
     public class BigQueryDataAdapter : DbDataAdapter
     {
         /// <summary>
-        ///     Initializes a new instance of the BigQueryDataAdapter class with default settings.
+        /// Initializes a new instance of the BigQueryDataAdapter class with default settings.
         /// </summary>
         public BigQueryDataAdapter()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryDataAdapter class.
+        /// Initializes a new instance of the BigQueryDataAdapter class.
         /// </summary>
         /// <param name="selectCommand">
-        ///     A BigQueryCommand object specifying a command used to obtain rows from a BigQuery data
-        ///     table.
+        /// A BigQueryCommand object specifying a command used to obtain rows from a BigQuery data
+        /// table.
         /// </param>
         public BigQueryDataAdapter(BigQueryCommand selectCommand)
         {
@@ -58,7 +58,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryDataAdapter class.
+        /// Initializes a new instance of the BigQueryDataAdapter class.
         /// </summary>
         /// <param name="selectCommandText">The text of a command used to obtain rows from a BigQuery data table.</param>
         /// <param name="connection">A BigQueryConnection object specifying an active connection to BigQuery.</param>
@@ -67,10 +67,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies a command used to obtain rows from a BigQuery data table.
+        /// Specifies a command used to obtain rows from a BigQuery data table.
         /// </summary>
         /// <value>
-        ///     A BigQuery command used to obtain rows from a BigQuery data table.
+        /// A BigQuery command used to obtain rows from a BigQuery data table.
         /// </value>
         public new BigQueryCommand SelectCommand
         {
@@ -85,10 +85,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies a command used to insert rows into a BigQuery data table.
+        /// Specifies a command used to insert rows into a BigQuery data table.
         /// </summary>
         /// <value>
-        ///     A BigQuery command used to insert rows into a BigQuery data table.
+        /// A BigQuery command used to insert rows into a BigQuery data table.
         /// </value>
         public new BigQueryCommand InsertCommand
         {
@@ -97,10 +97,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies a command used to update rows of a BigQuery data table.
+        /// Specifies a command used to update rows of a BigQuery data table.
         /// </summary>
         /// <value>
-        ///     A BigQuery command used to update rows of a BigQuery data table.
+        /// A BigQuery command used to update rows of a BigQuery data table.
         /// </value>
         public new BigQueryCommand UpdateCommand
         {
@@ -109,12 +109,12 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Occurs during the update before a command is executed against the data source.
+        /// Occurs during the update before a command is executed against the data source.
         /// </summary>
         public event BigQueryRowUpdatingEventHandler RowUpdating;
 
         /// <summary>
-        ///     Occurs after a command has been executed against the data source.
+        /// Occurs after a command has been executed against the data source.
         /// </summary>
         public event BigQueryRowUpdatedEventHandler RowUpdated;
 
@@ -142,12 +142,12 @@ namespace DevExpress.DataAccess.BigQuery
     }
 
     /// <summary>
-    ///     Provides data for the RowUpdating event.
+    /// Provides data for the RowUpdating event.
     /// </summary>
     public class BigQueryRowUpdatingEventArgs : RowUpdatingEventArgs
     {
         /// <summary>
-        ///     Initializes a new instance of the BigQueryRowUpdatingEventArgs class.
+        /// Initializes a new instance of the BigQueryRowUpdatingEventArgs class.
         /// </summary>
         /// <param name="dataRow">The DataRow sent throught an Update.</param>
         /// <param name="command">A BigQueryCommand being executed when Update is called.</param>
@@ -161,12 +161,12 @@ namespace DevExpress.DataAccess.BigQuery
     }
 
     /// <summary>
-    ///     Provides data for the RowUpdated event.
+    /// Provides data for the RowUpdated event.
     /// </summary>
     public class BigQueryRowUpdatedEventArgs : RowUpdatedEventArgs
     {
         /// <summary>
-        ///     Initializes a new instance of the BigQueryRowUpdatedEventArgs class.
+        /// Initializes a new instance of the BigQueryRowUpdatedEventArgs class.
         /// </summary>
         /// <param name="dataRow">The DataRow sent throught an Update.</param>
         /// <param name="command"> A BigQueryCommand that has been executed as a result of calling Update.</param>

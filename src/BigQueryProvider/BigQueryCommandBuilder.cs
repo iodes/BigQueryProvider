@@ -20,12 +20,12 @@ using System.Data.Common;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     Automatically generates commands to be executed against a BigQuery data source.
+    /// Automatically generates commands to be executed against a BigQuery data source.
     /// </summary>
     public class BigQueryCommandBuilder : DbCommandBuilder
     {
         /// <summary>
-        ///     Initializes a new instance of the BigQueryCommandBuilder class with default settings.
+        /// Initializes a new instance of the BigQueryCommandBuilder class with default settings.
         /// </summary>
         public BigQueryCommandBuilder()
         {
@@ -34,7 +34,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryCommandBuilder class with the specified data adapter.
+        /// Initializes a new instance of the BigQueryCommandBuilder class with the specified data adapter.
         /// </summary>
         /// <param name="dataAdapter">A BigQueryDataAdapter for which to generate commands.</param>
         public BigQueryCommandBuilder(BigQueryDataAdapter dataAdapter)
@@ -43,10 +43,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies a BigQuery data adapter for which commands are generated.
+        /// Specifies a BigQuery data adapter for which commands are generated.
         /// </summary>
         /// <value>
-        ///     A BigQueryDataAdapter object.
+        /// A BigQueryDataAdapter object.
         /// </value>
         public new BigQueryDataAdapter DataAdapter
         {
@@ -55,7 +55,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a command that deletes records from a data source.
+        /// Returns a command that deletes records from a data source.
         /// </summary>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
         public new BigQueryCommand GetDeleteCommand()
@@ -64,7 +64,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a command that deletes records from a data source.
+        /// Returns a command that deletes records from a data source.
         /// </summary>
         /// <param name="useColumnsForParameterNames">pecifies whether to generate parameter names based on column names.</param>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
@@ -74,7 +74,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a command that inserts a record into a data source.
+        /// Returns a command that inserts a record into a data source.
         /// </summary>
         /// <returns>An automatically generated BigQuery command used to insert rows into a BigQuery data table.</returns>
         public new BigQueryCommand GetInsertCommand()
@@ -83,7 +83,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a command that inserts a record into a data source.
+        /// Returns a command that inserts a record into a data source.
         /// </summary>
         /// <param name="useColumnsForParameterNames">Specifies whether to generate parameter names based on column names.</param>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
@@ -93,7 +93,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a properly quoted analog of the specified quoted identifier.
+        /// Returns a properly quoted analog of the specified quoted identifier.
         /// </summary>
         /// <param name="unquotedIdentifier">a string containing an unquoted identifier. </param>
         /// <returns>a string containing a properly quoted identifier.</returns>
@@ -104,7 +104,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns an unquoted analog of the specified quoted identifier.
+        /// Returns an unquoted analog of the specified quoted identifier.
         /// </summary>
         /// <param name="quotedIdentifier">a string containing an unquoted identifier.</param>
         /// <returns>a string containing an identifier with quotes removed. </returns>

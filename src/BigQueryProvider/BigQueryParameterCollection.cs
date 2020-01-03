@@ -26,7 +26,7 @@ using System.Threading;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     A collection of BigQueryParameter objects.
+    /// A collection of BigQueryParameter objects.
     /// </summary>
     public class BigQueryParameterCollection : DbParameterCollection
     {
@@ -35,26 +35,26 @@ namespace DevExpress.DataAccess.BigQuery
         private object syncRoot;
 
         /// <summary>
-        ///     Gets the number of parameters in the collection.
+        /// Gets the number of parameters in the collection.
         /// </summary>
         /// <value>
-        ///     the number of elements in the collection.
+        /// the number of elements in the collection.
         /// </value>
         public override int Count => innerList.Count;
 
         /// <summary>
-        ///     indicates whether access to the current BigQueryParameterCollection collection is synchronized.
+        /// indicates whether access to the current BigQueryParameterCollection collection is synchronized.
         /// </summary>
         /// <value>
-        ///     true if access is synchronized; otherwise, false.
+        /// true if access is synchronized; otherwise, false.
         /// </value>
         public override bool IsSynchronized => false;
 
         /// <summary>
-        ///     Gets an object that can be used to synchronize access to the BigQueryParameterCollection.
+        /// Gets an object that can be used to synchronize access to the BigQueryParameterCollection.
         /// </summary>
         /// <value>
-        ///     An object used to synchronize access to the BigQueryParameterCollection.
+        /// An object used to synchronize access to the BigQueryParameterCollection.
         /// </value>
         public override object SyncRoot
         {
@@ -68,18 +68,18 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Indicates whether the collection is a fixed size.
+        /// Indicates whether the collection is a fixed size.
         /// </summary>
         /// <value>
-        ///     true if the collection is a fixed size; otherwise false.
+        /// true if the collection is a fixed size; otherwise false.
         /// </value>
         public override bool IsFixedSize => false;
 
         /// <summary>
-        ///     Indicates whether the collection is read-only.
+        /// Indicates whether the collection is read-only.
         /// </summary>
         /// <value>
-        ///     true if the collection is read-only; otherwise false.
+        /// true if the collection is read-only; otherwise false.
         /// </value>
         public override bool IsReadOnly => false;
 
@@ -90,7 +90,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Adds a new parameter to the collection.
+        /// Adds a new parameter to the collection.
         /// </summary>
         /// <param name="parameterName">The name of a BigQueryParameter.</param>
         /// <param name="dbType">A DBType enumeration value specifying the data type of the parameter.</param>
@@ -101,7 +101,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     returns the index of the specified parameter.
+        /// returns the index of the specified parameter.
         /// </summary>
         /// <param name="parameterName">The name of a BigQueryParameter.</param>
         /// <returns>the index of the specified BigQueryParameter.</returns>
@@ -112,7 +112,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     returns the index of the specified object.
+        /// returns the index of the specified object.
         /// </summary>
         /// <param name="value">an object to find.</param>
         /// <returns>the index of the specified object.</returns>
@@ -131,7 +131,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns an enumerator used to iterate through the collection.
+        /// Returns an enumerator used to iterate through the collection.
         /// </summary>
         /// <returns>an object implementing the IEnumerator interface.</returns>
         public override IEnumerator GetEnumerator()
@@ -140,7 +140,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Removes the specified BigQueryParameter form the collection.
+        /// Removes the specified BigQueryParameter form the collection.
         /// </summary>
         /// <param name="value">A BigQueryParameter object.</param>
         public override void Remove(object value)
@@ -155,7 +155,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Removes a BigQueryParameter specified by index from the collection.
+        /// Removes a BigQueryParameter specified by index from the collection.
         /// </summary>
         /// <param name="index">An index from which to remove an element.</param>
         public override void RemoveAt(int index)
@@ -165,7 +165,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Removes a BigQueryParameter specified by name from the collection.
+        /// Removes a BigQueryParameter specified by name from the collection.
         /// </summary>
         /// <param name="parameterName">The name of a BigQueryParameter.</param>
         public override void RemoveAt(string parameterName)
@@ -174,12 +174,12 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Adds a parameter to the collection.
+        /// Adds a parameter to the collection.
         /// </summary>
         /// <param name="parameter">a BigQueryParameter object.</param>
         /// <returns>
-        ///     The position into which the new element was inserted, or -1 to indicate that the item was not inserted into
-        ///     the collection.
+        /// The position into which the new element was inserted, or -1 to indicate that the item was not inserted into
+        /// the collection.
         /// </returns>
         public override int Add(object parameter)
         {
@@ -192,7 +192,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Indicates whether or not the current collection contains the specified BigQueryParameter.
+        /// Indicates whether or not the current collection contains the specified BigQueryParameter.
         /// </summary>
         /// <param name="value">A BigQueryParameter object.</param>
         /// <returns>true, if the collection contains the specified parameter; otherwise, false.</returns>
@@ -202,7 +202,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Removes all items from the collection.
+        /// Removes all items from the collection.
         /// </summary>
         public override void Clear()
         {
@@ -210,7 +210,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Inserts a BigQueryParameter to the current collection.
+        /// Inserts a BigQueryParameter to the current collection.
         /// </summary>
         /// <param name="index">An index at which to insert an element.</param>
         /// <param name="value">A BigQueryParameter to insert.</param>
@@ -221,7 +221,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Indicates whether or not the current collection contains the specified BigQueryParameter.
+        /// Indicates whether or not the current collection contains the specified BigQueryParameter.
         /// </summary>
         /// <param name="parameterName">The name of a BigQueryParameter.</param>
         /// <returns>true, if the collection contains the specified parameter; otherwise, false.</returns>
@@ -231,7 +231,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Copies the element of the current collection to the specified position of an Array.
+        /// Copies the element of the current collection to the specified position of an Array.
         /// </summary>
         /// <param name="array">An zero-based Array to which to copy  the elements of the collection.</param>
         /// <param name="index">An index within an Array at which to start copying.</param>
@@ -241,7 +241,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Adds an array of values to the current collection.
+        /// Adds an array of values to the current collection.
         /// </summary>
         /// <param name="values">an array of BigQueryParameter objects.</param>
         public override void AddRange(Array values)

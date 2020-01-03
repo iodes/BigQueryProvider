@@ -30,7 +30,7 @@ using Google.Apis.Bigquery.v2.Data;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     Provides access to resulting data of command execution.
+    /// Provides access to resulting data of command execution.
     /// </summary>
     public class BigQueryDataReader : DbDataReader
     {
@@ -56,43 +56,43 @@ namespace DevExpress.DataAccess.BigQuery
         private bool IsStandardSql => bigQueryCommand.Connection.IsStandardSql;
 
         /// <summary>
-        ///     Gets the nesting depth of the current data row. BigQuery does now support nesting, and this property always returns
-        ///     0;
+        /// Gets the nesting depth of the current data row. BigQuery does now support nesting, and this property always returns
+        /// 0;
         /// </summary>
         /// <value>
-        ///     the nesting depth of the current data row.
+        /// the nesting depth of the current data row.
         /// </value>
         public override int Depth => 0;
 
         /// <summary>
-        ///     Indicates whether the current BigQueryDataReader is closed.
+        /// Indicates whether the current BigQueryDataReader is closed.
         /// </summary>
         /// <value>
-        ///     true, if the current BigQueryDataReader is closed; otherwise false.
+        /// true, if the current BigQueryDataReader is closed; otherwise false.
         /// </value>
         public override bool IsClosed => disposed;
 
         /// <summary>
-        ///     Returns the total count of data records affected by executing a command.
+        /// Returns the total count of data records affected by executing a command.
         /// </summary>
         /// <value>
-        ///     the number of rows affected.
+        /// the number of rows affected.
         /// </value>
         public override int RecordsAffected => 0;
 
         /// <summary>
-        ///     Gets the number of visible columns in the current row.
+        /// Gets the number of visible columns in the current row.
         /// </summary>
         /// <value>
-        ///     The number of visible columns in the reader.
+        /// The number of visible columns in the reader.
         /// </value>
         public override int VisibleFieldCount => FieldCount;
 
         /// <summary>
-        ///     Gets the total number of columns in the current row.
+        /// Gets the total number of columns in the current row.
         /// </summary>
         /// <value>
-        ///     the number of columns in the current row.
+        /// the number of columns in the current row.
         /// </value>
         public override int FieldCount
         {
@@ -104,7 +104,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the value of the specified column.
+        /// Gets the value of the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -118,7 +118,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the value of a column specified by its name.
+        /// Gets the value of a column specified by its name.
         /// </summary>
         /// <param name="name">The column name.</param>
         /// <returns>The value of the specified column.</returns>
@@ -133,10 +133,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Indicates whether or not there are more rows in the reader.
+        /// Indicates whether or not there are more rows in the reader.
         /// </summary>
         /// <value>
-        ///     true, if there are more rows in the reader; otherwise false.
+        /// true, if there are more rows in the reader; otherwise false.
         /// </value>
         public override bool HasRows
         {
@@ -148,7 +148,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Closes the current BigQueryDataReader.
+        /// Closes the current BigQueryDataReader.
         /// </summary>
         public override void Close()
         {
@@ -156,7 +156,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns the value of the specified column as a type.
+        /// Returns the value of the specified column as a type.
         /// </summary>
         /// <typeparam name="T">The type of a value to return.</typeparam>
         /// <param name="ordinal">The ordinal number of the required column.</param>
@@ -168,7 +168,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a data table containing column metadata of the reader.
+        /// Returns a data table containing column metadata of the reader.
         /// </summary>
         /// <returns>a DataTable containing column metadata.</returns>
         public override DataTable GetSchemaTable()
@@ -202,7 +202,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Advances the reader to the next result set.
+        /// Advances the reader to the next result set.
         /// </summary>
         /// <returns>true, if there are more result, sets; otherwise false.</returns>
         public override bool NextResult()
@@ -216,7 +216,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Advances the reader to the next record in the current result set.
+        /// Advances the reader to the next record in the current result set.
         /// </summary>
         /// <returns>true, if there are more records in the result set; otherwise, false.</returns>
         public override bool Read()
@@ -226,7 +226,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Boolean type from the specified column.
+        /// Gets a value of the System.Boolean type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -237,8 +237,8 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Byte type from the specified column. This implementation always throws
-        ///     NotSupportedException.
+        /// Gets a value of the System.Byte type from the specified column. This implementation always throws
+        /// NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -248,7 +248,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Reads bytes from the specified column into a buffer. This implementation always throws NotSupportedException.
+        /// Reads bytes from the specified column into a buffer. This implementation always throws NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <param name="dataOffset">An offset in the source data from which to start reading.</param>
@@ -262,8 +262,8 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Guid type from the specified column. This implementation always throws
-        ///     NotSupportedException.
+        /// Gets a value of the System.Guid type from the specified column. This implementation always throws
+        /// NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -273,7 +273,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Reads characters from the specified column into a buffer. This implementation always throws NotSupportedException.
+        /// Reads characters from the specified column into a buffer. This implementation always throws NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <param name="dataOffset">An offset in the source data from which to start reading.</param>
@@ -287,8 +287,8 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Guid type from the specified column. This implementation always throws
-        ///     NotSupportedException.
+        /// Gets a value of the System.Guid type from the specified column. This implementation always throws
+        /// NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -298,7 +298,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Int16 type from the specified column.
+        /// Gets a value of the System.Int16 type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -309,7 +309,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Int32 type from the specified column.
+        /// Gets a value of the System.Int32 type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -320,7 +320,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Int64 type from the specified column.
+        /// Gets a value of the System.Int64 type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -331,7 +331,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.DateTime type from the specified column.
+        /// Gets a value of the System.DateTime type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -342,7 +342,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.String type from the specified column.
+        /// Gets a value of the System.String type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -353,8 +353,8 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Decimal type from the specified column. This implementation always throws
-        ///     NotSupportedException.
+        /// Gets a value of the System.Decimal type from the specified column. This implementation always throws
+        /// NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -364,8 +364,8 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the System.Double type from the specified column. This implementation always throws
-        ///     NotSupportedException.
+        /// Gets a value of the System.Double type from the specified column. This implementation always throws
+        /// NotSupportedException.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -375,7 +375,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the float type from the specified column.
+        /// Gets a value of the float type from the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -386,7 +386,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns the name of the specified column.
+        /// Returns the name of the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <returns>A string containing the name of the specified column.</returns>
@@ -398,7 +398,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Fills an array with provider-specific values of all columns in the reader.
+        /// Fills an array with provider-specific values of all columns in the reader.
         /// </summary>
         /// <param name="values">An array to which to copy obtained values.</param>
         /// <returns>The number of values added to the array.</returns>
@@ -408,7 +408,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Fills an array with values of all columns in the reader.
+        /// Fills an array with values of all columns in the reader.
         /// </summary>
         /// <param name="values">An array to which to copy obtained values.</param>
         /// <returns>The number of values added to the array.</returns>
@@ -423,7 +423,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a value that indicates whether the content of the specified column is equal to System.Data.DbNull.
+        /// Returns a value that indicates whether the content of the specified column is equal to System.Data.DbNull.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <returns>true, if the content of the specified column is equal to System.Data.DbNull; otherwise, false.</returns>
@@ -435,7 +435,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns the ordinal number of a column specified by its name.
+        /// Returns the ordinal number of a column specified by its name.
         /// </summary>
         /// <param name="name">the name of a column.</param>
         /// <returns>The ordinal number of the specified column.</returns>
@@ -451,7 +451,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the name of the data type of the specified column.
+        /// Gets the name of the data type of the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of the required column.</param>
         /// <returns>The name of the specified column.</returns>
@@ -462,7 +462,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the provider-specific type of the specified column.
+        /// Gets the provider-specific type of the specified column.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <returns>The type of the specified column.</returns>
@@ -472,7 +472,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the type of the specified column.
+        /// Gets the type of the specified column.
         /// </summary>
         /// <param name="ordinal"> The ordinal number of a column.</param>
         /// <returns>The type of the specified column.</returns>
@@ -490,7 +490,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns the provider-specific value of the specified field.
+        /// Returns the provider-specific value of the specified field.
         /// </summary>
         /// <param name="ordinal">The ordinal number of a column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -500,7 +500,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a value of the Object type from the specified column.
+        /// Gets a value of the Object type from the specified column.
         /// </summary>
         /// <param name="ordinal"> The ordinal number of a column.</param>
         /// <returns>The value of the specified column.</returns>
@@ -512,7 +512,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     returns an enumerator that allows iterating through all rows in the reader.
+        /// returns an enumerator that allows iterating through all rows in the reader.
         /// </summary>
         /// <returns>an object implementing the IEnumerator interface.</returns>
         public override IEnumerator GetEnumerator()

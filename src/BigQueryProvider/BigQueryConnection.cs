@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.IO;
@@ -33,7 +34,7 @@ using Google.Apis.Services;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     Represents a connection to BigQuery.
+    /// Represents a connection to BigQuery.
     /// </summary>
     public class BigQueryConnection : DbConnection, ICloneable
     {
@@ -46,14 +47,14 @@ namespace DevExpress.DataAccess.BigQuery
         private ConnectionState state;
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryConnection class with default settings.
+        /// Initializes a new instance of the BigQueryConnection class with default settings.
         /// </summary>
         public BigQueryConnection()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryConnection class with the specified connection string.
+        /// Initializes a new instance of the BigQueryConnection class with the specified connection string.
         /// </summary>
         /// <param name="connectionString">A System.String specifying a connection string.</param>
         public BigQueryConnection(string connectionString)
@@ -62,10 +63,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the connection string used to establish the current data connection.
+        /// Specifies the connection string used to establish the current data connection.
         /// </summary>
         /// <value>
-        ///     a System.String value specifying a connection string.
+        /// a System.String value specifying a connection string.
         /// </value>
         public override string ConnectionString
         {
@@ -74,10 +75,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the name of a BigQueryproject to which to connect.
+        /// Gets the name of a BigQueryproject to which to connect.
         /// </summary>
         /// <value>
-        ///     Gets the name of the BigQuery data source to which to connect.
+        /// Gets the name of the BigQuery data source to which to connect.
         /// </value>
         public override string DataSource
         {
@@ -89,10 +90,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets the name of the current Big Query dataset.
+        /// Gets the name of the current Big Query dataset.
         /// </summary>
         /// <value>
-        ///     The name of the current dataset.
+        /// The name of the current dataset.
         /// </value>
         public override string Database
         {
@@ -104,19 +105,19 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Gets a string containing the version of a database server to which the client is connected. This implementation
-        ///     always throws NotSupportedException.
+        /// Gets a string containing the version of a database server to which the client is connected. This implementation
+        /// always throws NotSupportedException.
         /// </summary>
         /// <value>
-        ///     A string containing the version of database server.
+        /// A string containing the version of database server.
         /// </value>
         public override string ServerVersion => throw new NotSupportedException();
 
         /// <summary>
-        ///     Gets the state of the current data connection.
+        /// Gets the state of the current data connection.
         /// </summary>
         /// <value>
-        ///     A ConnectionState enumeration value.
+        /// A ConnectionState enumeration value.
         /// </value>
         public override ConnectionState State => state;
 
@@ -185,7 +186,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Changes the database for the current connection.
+        /// Changes the database for the current connection.
         /// </summary>
         /// <param name="databaseName">A System.String value specifying the database name.</param>
         public override void ChangeDatabase(string databaseName)
@@ -195,7 +196,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Asynchronously opens a data connection.
+        /// Asynchronously opens a data connection.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel opening a data connection.</param>
         /// <returns>A System.Threading.Tasks.Task, specifying an asynchronous operation.</returns>
@@ -205,7 +206,7 @@ namespace DevExpress.DataAccess.BigQuery
             cancellationToken.ThrowIfCancellationRequested();
 
             if (IsOpened)
-                throw new InvalidOperationException("Connection allready open");
+                throw new InvalidOperationException("An open Connection already exists.");
 
             try
             {
@@ -219,7 +220,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Opens a data connection.
+        /// Opens a data connection.
         /// </summary>
         public override void Open()
         {
@@ -237,7 +238,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Closes the current data connection.
+        /// Closes the current data connection.
         /// </summary>
         public override void Close()
         {
@@ -250,7 +251,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a list of datasets available in the current Google Cloud Platform project.
+        /// Returns a list of datasets available in the current Google Cloud Platform project.
         /// </summary>
         /// <returns>an array of System.String values containing names of available datasets.</returns>
         public string[] GetDataSetNames()
@@ -272,7 +273,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a list of tables available in the current BigQuery dataset.
+        /// Returns a list of tables available in the current BigQuery dataset.
         /// </summary>
         /// <returns>an array of System.String values containing names of available data tables.</returns>
         public string[] GetTableNames()
@@ -281,10 +282,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Returns a list of views available in the current BigQuery dataset.
+        /// Returns a list of views available in the current BigQuery dataset.
         /// </summary>
         /// <returns>an array of System.String values containing names of available data views.</returns>
-        public string[] GetViewNames()
+        public IEnumerable<string> GetViewNames()
         {
             return GetDataObjectNames("VIEW");
         }
@@ -308,7 +309,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Creates a new BigQuery command associated with the current data connection.
+        /// Creates a new BigQuery command associated with the current data connection.
         /// </summary>
         /// <returns>a BigQueryCommand object.</returns>
         public new BigQueryCommand CreateCommand()

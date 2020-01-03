@@ -23,7 +23,7 @@ using DevExpress.DataAccess.BigQuery.Native;
 namespace DevExpress.DataAccess.BigQuery
 {
     /// <summary>
-    ///     A parameter to a BigQueryCommand.
+    /// A parameter to a BigQueryCommand.
     /// </summary>
     public sealed class BigQueryParameter : DbParameter, ICloneable
     {
@@ -35,7 +35,7 @@ namespace DevExpress.DataAccess.BigQuery
         private object value;
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryParameter class with default settings.
+        /// Initializes a new instance of the BigQueryParameter class with default settings.
         /// </summary>
         public BigQueryParameter()
         {
@@ -43,7 +43,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryParameter class with the specified settings.
+        /// Initializes a new instance of the BigQueryParameter class with the specified settings.
         /// </summary>
         /// <param name="parameterName">The name of the parameter.</param>
         /// <param name="value">The value of the parameter.</param>
@@ -54,7 +54,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryParameter class with the specified settings.
+        /// Initializes a new instance of the BigQueryParameter class with the specified settings.
         /// </summary>
         /// <param name="parameterName">The name of the parameter.</param>
         /// <param name="dbType">A DBType enumeration value specifying the data type of the parameter.</param>
@@ -65,7 +65,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Initializes a new instance of the BigQueryParameter class with the specified settings.
+        /// Initializes a new instance of the BigQueryParameter class with the specified settings.
         /// </summary>
         /// <param name="parameterName">The name of the parameter.</param>
         /// <param name="bigQueryDbType">A BigQueryDbType enumeration value specifying the data type of the parameter.</param>
@@ -76,10 +76,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the type of the parameter specific to Big Query.
+        /// Specifies the type of the parameter specific to Big Query.
         /// </summary>
         /// <value>
-        ///     A BigQueryDbType enumeration value.
+        /// A BigQueryDbType enumeration value.
         /// </value>
         public BigQueryDbType BigQueryDbType
         {
@@ -101,10 +101,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the DbType of the parameter.
+        /// Specifies the DbType of the parameter.
         /// </summary>
         /// <value>
-        ///     A DBType enumeration value.
+        /// A DBType enumeration value.
         /// </value>
         public override DbType DbType
         {
@@ -126,11 +126,11 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies whether the parameter is read-only, write-only, bidirectional or a stored procedure return value. This
-        ///     implementation only supports ParameterDirrection.Input as its value.
+        /// Specifies whether the parameter is read-only, write-only, bidirectional or a stored procedure return value. This
+        /// implementation only supports ParameterDirrection.Input as its value.
         /// </summary>
         /// <value>
-        ///     A ParameterDirrection enumeration value.
+        /// A ParameterDirrection enumeration value.
         /// </value>
         public override ParameterDirection Direction
         {
@@ -143,10 +143,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies whether or not the parameter can receive DBNull as its value.
+        /// Specifies whether or not the parameter can receive DBNull as its value.
         /// </summary>
         /// <value>
-        ///     true, if the parameter can receive DBNull as its value; otherwise false.
+        /// true, if the parameter can receive DBNull as its value; otherwise false.
         /// </value>
         public override bool IsNullable
         {
@@ -159,18 +159,18 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the name of the parameter.
+        /// Specifies the name of the parameter.
         /// </summary>
         /// <value>
-        ///     The name of the parameter.
+        /// The name of the parameter.
         /// </value>
         public override string ParameterName { get; set; }
 
         /// <summary>
-        ///     Specifies the name of the source column used for loading and returning the parameter's Value.
+        /// Specifies the name of the source column used for loading and returning the parameter's Value.
         /// </summary>
         /// <value>
-        ///     The name of a source column.
+        /// The name of a source column.
         /// </value>
         public override string SourceColumn
         {
@@ -179,10 +179,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the DataRowVersion of the source row to be used when obtaining the parameter's value.
+        /// Specifies the DataRowVersion of the source row to be used when obtaining the parameter's value.
         /// </summary>
         /// <value>
-        ///     A DataRowVersion enumeration value.
+        /// A DataRowVersion enumeration value.
         /// </value>
         public override DataRowVersion SourceVersion
         {
@@ -191,10 +191,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies whether the source column of the current parameter is nullable.
+        /// Specifies whether the source column of the current parameter is nullable.
         /// </summary>
         /// <value>
-        ///     true, if the source column is nullable; otherwise false.
+        /// true, if the source column is nullable; otherwise false.
         /// </value>
         public override bool SourceColumnNullMapping
         {
@@ -203,10 +203,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the value of the parameter.
+        /// Specifies the value of the parameter.
         /// </summary>
         /// <value>
-        ///     an Object specifying the value of the parameter.
+        /// an Object specifying the value of the parameter.
         /// </value>
         public override object Value
         {
@@ -215,10 +215,10 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Specifies the maximum size of data in the source column.
+        /// Specifies the maximum size of data in the source column.
         /// </summary>
         /// <value>
-        ///     The size of data in the source column.
+        /// The size of data in the source column.
         /// </value>
         public override int Size
         {
@@ -247,7 +247,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Resets the data type associated with the parameter.
+        /// Resets the data type associated with the parameter.
         /// </summary>
         public override void ResetDbType()
         {
@@ -282,7 +282,7 @@ namespace DevExpress.DataAccess.BigQuery
         }
 
         /// <summary>
-        ///     Creates a shallow copy of the current BigQueryParameter.
+        /// Creates a shallow copy of the current BigQueryParameter.
         /// </summary>
         /// <returns>a shallow copy of the current BigQueryParameter.</returns>
         public BigQueryParameter Clone()
