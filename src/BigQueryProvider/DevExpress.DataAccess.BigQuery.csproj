@@ -8,7 +8,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>DevExpress.DataAccess.BigQuery</Title>
     <Authors>CHEQUER</Authors>
-    <Description>Google BigData for ADO.NET Provider</Description>
+    <Description>Google Big Data Provider for ADO.NET</Description>
     <PackageIcon>Logo.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
