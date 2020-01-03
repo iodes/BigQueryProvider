@@ -15,10 +15,10 @@
 */
 
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-[assembly:InternalsVisibleTo("DevExpress.DataAccess.BigQuery.Tests")]
+[assembly: InternalsVisibleTo("DevExpress.DataAccess.BigQuery.Tests")]
 [assembly: AssemblyTitle("DevExpress.DataAccess.BigQuery")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

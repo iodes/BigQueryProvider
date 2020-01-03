@@ -17,131 +17,156 @@
 using System.Data;
 using System.Data.Common;
 
-namespace DevExpress.DataAccess.BigQuery {
+namespace DevExpress.DataAccess.BigQuery
+{
     /// <summary>
-    /// Automatically generates commands to be executed against a BigQuery data source.
+    ///     Automatically generates commands to be executed against a BigQuery data source.
     /// </summary>
-    public class BigQueryCommandBuilder : DbCommandBuilder {
+    public class BigQueryCommandBuilder : DbCommandBuilder
+    {
         /// <summary>
-        /// Initializes a new instance of the BigQueryCommandBuilder class with default settings.
+        ///     Initializes a new instance of the BigQueryCommandBuilder class with default settings.
         /// </summary>
-        public BigQueryCommandBuilder() {
+        public BigQueryCommandBuilder()
+        {
             QuotePrefix = "[";
             QuoteSuffix = "]";
         }
 
         /// <summary>
-        /// Initializes a new instance of the BigQueryCommandBuilder class with the specified data adapter.
+        ///     Initializes a new instance of the BigQueryCommandBuilder class with the specified data adapter.
         /// </summary>
         /// <param name="dataAdapter">A BigQueryDataAdapter for which to generate commands.</param>
-        public BigQueryCommandBuilder(BigQueryDataAdapter dataAdapter) {
+        public BigQueryCommandBuilder(BigQueryDataAdapter dataAdapter)
+        {
             DataAdapter = dataAdapter;
         }
 
         /// <summary>
-        /// Specifies a BigQuery data adapter for which commands are generated.
+        ///     Specifies a BigQuery data adapter for which commands are generated.
         /// </summary>
         /// <value>
-        /// A BigQueryDataAdapter object.
+        ///     A BigQueryDataAdapter object.
         /// </value>
-        public new BigQueryDataAdapter DataAdapter {
+        public new BigQueryDataAdapter DataAdapter
+        {
             get => (BigQueryDataAdapter)base.DataAdapter;
             set => base.DataAdapter = value;
         }
 
         /// <summary>
-        /// Returns a command that deletes records from a data source.
+        ///     Returns a command that deletes records from a data source.
         /// </summary>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
-        public new BigQueryCommand GetDeleteCommand() {
+        public new BigQueryCommand GetDeleteCommand()
+        {
             return (BigQueryCommand)base.GetDeleteCommand();
         }
 
         /// <summary>
-        /// Returns a command that deletes records from a data source.
+        ///     Returns a command that deletes records from a data source.
         /// </summary>
         /// <param name="useColumnsForParameterNames">pecifies whether to generate parameter names based on column names.</param>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
-        public new BigQueryCommand GetDeleteCommand(bool useColumnsForParameterNames) {
+        public new BigQueryCommand GetDeleteCommand(bool useColumnsForParameterNames)
+        {
             return (BigQueryCommand)base.GetDeleteCommand(useColumnsForParameterNames);
         }
 
         /// <summary>
-        /// Returns a command that inserts a record into a data source.
+        ///     Returns a command that inserts a record into a data source.
         /// </summary>
         /// <returns>An automatically generated BigQuery command used to insert rows into a BigQuery data table.</returns>
-        public new BigQueryCommand GetInsertCommand() {
+        public new BigQueryCommand GetInsertCommand()
+        {
             return (BigQueryCommand)base.GetInsertCommand();
         }
 
         /// <summary>
-        /// Returns a command that inserts a record into a data source.
+        ///     Returns a command that inserts a record into a data source.
         /// </summary>
         /// <param name="useColumnsForParameterNames">Specifies whether to generate parameter names based on column names.</param>
         /// <returns>An automatically generated BigQuery command used to delete rows from a BigQuery data table.</returns>
-        public new BigQueryCommand GetInsertCommand(bool useColumnsForParameterNames) {
+        public new BigQueryCommand GetInsertCommand(bool useColumnsForParameterNames)
+        {
             return (BigQueryCommand)base.GetInsertCommand(useColumnsForParameterNames);
         }
 
         /// <summary>
-        /// Returns a properly quoted analog of the specified quoted identifier.
+        ///     Returns a properly quoted analog of the specified quoted identifier.
         /// </summary>
         /// <param name="unquotedIdentifier">a string containing an unquoted identifier. </param>
         /// <returns>a string containing a properly quoted identifier.</returns>
-        public override string QuoteIdentifier(string unquotedIdentifier) {
+        public override string QuoteIdentifier(string unquotedIdentifier)
+        {
             unquotedIdentifier = unquotedIdentifier.Replace("\\", "\\\\").Replace("[", "\\[").Replace("]", "\\]");
             return string.Concat(QuotePrefix, unquotedIdentifier, QuoteSuffix);
         }
 
         /// <summary>
-        /// Returns an unquoted analog of the specified quoted identifier.
+        ///     Returns an unquoted analog of the specified quoted identifier.
         /// </summary>
         /// <param name="quotedIdentifier">a string containing an unquoted identifier.</param>
         /// <returns>a string containing an identifier with quotes removed. </returns>
-        public override string UnquoteIdentifier(string quotedIdentifier) {
+        public override string UnquoteIdentifier(string quotedIdentifier)
+        {
             string unquotedIdentifier;
-            if(string.IsNullOrEmpty(quotedIdentifier)) {
+
+            if (string.IsNullOrEmpty(quotedIdentifier))
+            {
                 unquotedIdentifier = quotedIdentifier;
-            } else {
-                if(quotedIdentifier[0] == '[') {
+            }
+            else
+            {
+                if (quotedIdentifier[0] == '[')
+                {
                     quotedIdentifier = quotedIdentifier.Substring(1, quotedIdentifier.Length - 2);
                     quotedIdentifier = quotedIdentifier.Replace("\\[", "[").Replace("\\]", "]").Replace("\\\\", "\\");
                 }
+
                 unquotedIdentifier = quotedIdentifier;
             }
+
             return unquotedIdentifier;
         }
 
-        protected override DataTable GetSchemaTable(DbCommand sourceCommand) {
-            using(IDataReader dataReader = sourceCommand.ExecuteReader(CommandBehavior.SchemaOnly)) {
+        protected override DataTable GetSchemaTable(DbCommand sourceCommand)
+        {
+            using (IDataReader dataReader = sourceCommand.ExecuteReader(CommandBehavior.SchemaOnly))
+            {
                 return dataReader.GetSchemaTable();
             }
         }
 
-        protected override void ApplyParameterInfo(DbParameter parameter, DataRow row, StatementType statementType, bool whereClause) {
+        protected override void ApplyParameterInfo(DbParameter parameter, DataRow row, StatementType statementType, bool whereClause)
+        {
         }
 
-        protected override string GetParameterName(int parameterOrdinal) {
+        protected override string GetParameterName(int parameterOrdinal)
+        {
             return "@p" + parameterOrdinal;
         }
 
-        protected override string GetParameterName(string parameterName) {
+        protected override string GetParameterName(string parameterName)
+        {
             return "@" + parameterName;
         }
 
-        protected override string GetParameterPlaceholder(int parameterOrdinal) {
+        protected override string GetParameterPlaceholder(int parameterOrdinal)
+        {
             return GetParameterName(parameterOrdinal);
         }
 
-        protected override void SetRowUpdatingHandler(DbDataAdapter dataAdapter) {
-            if(DataAdapter == dataAdapter) {
+        protected override void SetRowUpdatingHandler(DbDataAdapter dataAdapter)
+        {
+            if (DataAdapter == dataAdapter)
                 ((BigQueryDataAdapter)dataAdapter).RowUpdating -= OnRowUpdatingHandler;
-            } else {
+            else
                 ((BigQueryDataAdapter)dataAdapter).RowUpdating += OnRowUpdatingHandler;
-            }
         }
 
-        void OnRowUpdatingHandler(object sender, RowUpdatingEventArgs e) {
+        private void OnRowUpdatingHandler(object sender, RowUpdatingEventArgs e)
+        {
             RowUpdatingHandler(e);
         }
     }

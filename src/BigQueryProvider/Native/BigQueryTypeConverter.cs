@@ -20,9 +20,12 @@ using System.Data;
 using System.Data.SqlTypes;
 using System.Linq;
 
-namespace DevExpress.DataAccess.BigQuery.Native {
-    public static class BigQueryTypeConverter {
-        static readonly Tuple<DbType, BigQueryDbType>[] DbTypeToBigQueryDbTypePairs = {
+namespace DevExpress.DataAccess.BigQuery.Native
+{
+    public static class BigQueryTypeConverter
+    {
+        private static readonly Tuple<DbType, BigQueryDbType>[] DbTypeToBigQueryDbTypePairs =
+        {
             new Tuple<DbType, BigQueryDbType>(DbType.String, BigQueryDbType.String),
             new Tuple<DbType, BigQueryDbType>(DbType.Date, BigQueryDbType.Date),
             new Tuple<DbType, BigQueryDbType>(DbType.Time, BigQueryDbType.Time),
@@ -32,9 +35,10 @@ namespace DevExpress.DataAccess.BigQuery.Native {
             new Tuple<DbType, BigQueryDbType>(DbType.Single, BigQueryDbType.Float),
             new Tuple<DbType, BigQueryDbType>(DbType.Int64, BigQueryDbType.Integer),
             new Tuple<DbType, BigQueryDbType>(DbType.Object, BigQueryDbType.Unknown)
-        }; 
+        };
 
-        static readonly Tuple<Type, DbType>[] TypeToDbTypePairs = {
+        private static readonly Tuple<Type, DbType>[] TypeToDbTypePairs =
+        {
             new Tuple<Type, DbType>(typeof(long), DbType.Int64),
             new Tuple<Type, DbType>(typeof(float), DbType.Single),
             new Tuple<Type, DbType>(typeof(string), DbType.String),
@@ -49,8 +53,9 @@ namespace DevExpress.DataAccess.BigQuery.Native {
             new Tuple<Type, DbType>(typeof(uint), DbType.Int64),
             new Tuple<Type, DbType>(typeof(ushort), DbType.Int64)
         };
- 
-        static readonly Tuple<string, Type>[] StringToTypePairs = {
+
+        private static readonly Tuple<string, Type>[] StringToTypePairs =
+        {
             new Tuple<string, Type>("STRING", typeof(string)),
             new Tuple<string, Type>("DATE", typeof(DateTime)),
             new Tuple<string, Type>("TIME", typeof(DateTime)),
@@ -62,7 +67,8 @@ namespace DevExpress.DataAccess.BigQuery.Native {
             new Tuple<string, Type>("RECORD", typeof(object))
         };
 
-        static readonly Tuple<string, BigQueryDbType>[] StringToBigQueryDbTypePairs = {
+        private static readonly Tuple<string, BigQueryDbType>[] StringToBigQueryDbTypePairs =
+        {
             new Tuple<string, BigQueryDbType>("STRING", BigQueryDbType.String),
             new Tuple<string, BigQueryDbType>("DATE", BigQueryDbType.Date),
             new Tuple<string, BigQueryDbType>("TIME", BigQueryDbType.Time),
@@ -75,83 +81,99 @@ namespace DevExpress.DataAccess.BigQuery.Native {
             new Tuple<string, BigQueryDbType>("BYTES", BigQueryDbType.Bytes)
         };
 
-        public static BigQueryDbType ToBigQueryDbType(DbType dbType) {
+        public static BigQueryDbType ToBigQueryDbType(DbType dbType)
+        {
             return DbTypeToBigQueryDbTypePairs.FindRightPairFor(dbType);
         }
 
-        public static BigQueryDbType ToBigQueryDbType(Type type) {
+        public static BigQueryDbType ToBigQueryDbType(Type type)
+        {
             return ToBigQueryDbType(ToDbType(type));
         }
 
-        public static BigQueryDbType ToBigQueryDbType(string stringType) {
+        public static BigQueryDbType ToBigQueryDbType(string stringType)
+        {
             return StringToBigQueryDbTypePairs.FindRightPairFor(stringType);
         }
 
-        public static DbType ToDbType(BigQueryDbType bqDbType) {
+        public static DbType ToDbType(BigQueryDbType bqDbType)
+        {
             return DbTypeToBigQueryDbTypePairs.FindLeftPairFor(bqDbType);
         }
 
-        public static DbType ToDbType(Type type) {
+        public static DbType ToDbType(Type type)
+        {
             return TypeToDbTypePairs.FindRightPairFor(type);
         }
 
-        public static Type ToType(BigQueryDbType bqDbType) {
+        public static Type ToType(BigQueryDbType bqDbType)
+        {
             return ToType(ToDbType(bqDbType));
         }
 
-        public static Type ToType(string stringType) {
+        public static Type ToType(string stringType)
+        {
             return StringToTypePairs.FindRightPairFor(stringType);
         }
 
-        public static Type ToType(DbType dbType) {
+        public static Type ToType(DbType dbType)
+        {
             return TypeToDbTypePairs.FindLeftPairFor(dbType);
         }
 
-        static string ToStringType(BigQueryDbType dbType) {
+        private static string ToStringType(BigQueryDbType dbType)
+        {
             return StringToBigQueryDbTypePairs.FindLeftPairFor(dbType);
         }
 
-        public static string ToParameterStringType(BigQueryDbType dbType) {
+        public static string ToParameterStringType(BigQueryDbType dbType)
+        {
             var type = ToStringType(dbType);
-            if(type == "BOOLEAN") {
+
+            if (type == "BOOLEAN")
                 return "BOOL";
-            }
 
             return type;
         }
 
-        public static object GetDefaultValueFor(DbType dbType) {
-            if(dbType == DbType.DateTime)
+        public static object GetDefaultValueFor(DbType dbType)
+        {
+            if (dbType == DbType.DateTime)
                 return SqlDateTime.MinValue;
+
             var type = ToType(dbType);
             return GetDefaultValue(type);
         }
 
-        static object GetDefaultValueFor(Type type) {
-            if(type == typeof(DbType)) {
+        private static object GetDefaultValueFor(Type type)
+        {
+            if (type == typeof(DbType))
                 return DbType.Object;
-            }
-            if(type == typeof(BigQueryDbType)) {
+
+            if (type == typeof(BigQueryDbType))
                 return BigQueryDbType.Unknown;
-            }
 
             return GetDefaultValue(type);
         }
 
-        static object GetDefaultValue(Type type) {
-            return type == null ? null : (type.IsValueType ? Activator.CreateInstance(type) : null);
+        private static object GetDefaultValue(Type type)
+        {
+            return type == null ? null : type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
-        static TResult FindPairFor<T1, T2, TResult>(this IEnumerable<Tuple<T1, T2>> tuples, Predicate<Tuple<T1, T2>> predicate, Func<Tuple<T1, T2>, TResult> selector) {
-            var tuple = tuples.FirstOrDefault(t => predicate(t));
+        private static TResult FindPairFor<T1, T2, TResult>(this IEnumerable<Tuple<T1, T2>> tuples, Predicate<Tuple<T1, T2>> predicate, Func<Tuple<T1, T2>, TResult> selector)
+        {
+            Tuple<T1, T2> tuple = tuples.FirstOrDefault(t => predicate(t));
             return tuple == null ? (TResult)GetDefaultValueFor(typeof(TResult)) : selector(tuple);
         }
-        
-        static T1 FindLeftPairFor<T1, T2>(this IEnumerable<Tuple<T1, T2>> tuples, object knownItem) {
+
+        private static T1 FindLeftPairFor<T1, T2>(this IEnumerable<Tuple<T1, T2>> tuples, object knownItem)
+        {
             return tuples.FindPairFor(tuple => tuple.Item2.Equals(knownItem), tuple => tuple.Item1);
         }
-        
-        static T2 FindRightPairFor<T1, T2>(this IEnumerable<Tuple<T1, T2>> tuples, object knownItem) {
+
+        private static T2 FindRightPairFor<T1, T2>(this IEnumerable<Tuple<T1, T2>> tuples, object knownItem)
+        {
             return tuples.FindPairFor(tuple => tuple.Item1.Equals(knownItem), tuple => tuple.Item2);
         }
     }
