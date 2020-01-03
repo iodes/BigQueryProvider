@@ -1,10 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>DevExpress.DataAccess.BigQuery</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>DevExpress.DataAccess.BigQuery</RootNamespace>
     <Configurations>Debug;Release</Configurations>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>DevExpress.DataAccess.BigQuery</Title>
+    <Authors>CHEQUER</Authors>
+    <Description>Google BigData for ADO.NET Provider</Description>
+    <PackageIcon>Logo.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
@@ -19,4 +24,10 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Bigquery.v2" Version="1.34.0.1239" />
   </ItemGroup>
+  <ItemGroup>
+  <None Include="Resources/Logo.png">
+    <Pack>True</Pack>
+    <PackagePath />
+  </None>
+</ItemGroup>
 </Project>
