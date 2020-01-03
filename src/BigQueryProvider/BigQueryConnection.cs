@@ -124,12 +124,12 @@ namespace DevExpress.DataAccess.BigQuery
 
         internal BigqueryService Service { get; private set; }
 
-        internal string ProjectId => (string)connectionStringBuilder["ProjectId"];
+        public string ProjectId => (string)connectionStringBuilder["ProjectId"];
 
-        internal string DataSetId
+        public string DataSetId
         {
             get => (string)connectionStringBuilder.SafeGetValue("DataSetId", string.Empty);
-            set
+            internal set
             {
                 if (connectionStringBuilder.SafeSetValue("DataSetId", value))
                 {
@@ -143,8 +143,10 @@ namespace DevExpress.DataAccess.BigQuery
             get => (string)connectionStringBuilder.SafeGetValue("OAuthRefreshToken");
             set
             {
-                connectionStringBuilder["OAuthRefreshToken"] = value;
-                ConnectionString = connectionStringBuilder.ConnectionString;
+                if (connectionStringBuilder.SafeSetValue("OAuthRefreshToken", value))
+                {
+                    ConnectionString = connectionStringBuilder.ConnectionString;
+                }
             }
         }
 
@@ -153,8 +155,10 @@ namespace DevExpress.DataAccess.BigQuery
             get => (string)connectionStringBuilder.SafeGetValue("OAuthAccessToken");
             set
             {
-                connectionStringBuilder["OAuthAccessToken"] = value;
-                ConnectionString = connectionStringBuilder.ConnectionString;
+                if (connectionStringBuilder.SafeSetValue("OAuthAccessToken", value))
+                {
+                    ConnectionString = connectionStringBuilder.ConnectionString;
+                }
             }
         }
 
@@ -277,7 +281,7 @@ namespace DevExpress.DataAccess.BigQuery
         /// Returns a list of tables available in the current BigQuery dataset.
         /// </summary>
         /// <returns>an array of System.String values containing names of available data tables.</returns>
-        public string[] GetTableNames()
+        public IEnumerable<string> GetTableNames()
         {
             return GetDataObjectNames("TABLE");
         }
@@ -291,22 +295,22 @@ namespace DevExpress.DataAccess.BigQuery
             return GetDataObjectNames("VIEW");
         }
 
-        private string[] GetDataObjectNames(string type)
+        private IEnumerable<string> GetDataObjectNames(string type)
         {
             CheckDisposed();
             CheckOpen();
-            TableList tableList;
 
             try
             {
-                tableList = Service.Tables.List(ProjectId, DataSetId).Execute();
+                return Service.Tables.List(ProjectId, DataSetId).Execute().Tables
+                    .Where(t => t.Type == type)
+                    .Select(t => t.TableReference.TableId)
+                    .ToArray();
             }
             catch (GoogleApiException e)
             {
                 throw e.Wrap();
             }
-
-            return tableList.Tables.Where(t => t.Type == type).Select(t => t.TableReference.TableId).ToArray();
         }
 
         /// <summary>
@@ -408,11 +412,9 @@ namespace DevExpress.DataAccess.BigQuery
                     ClientSecret = OAuthClientSecret
                 };
 
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets,
-                    scopes,
-                    "user",
-                    cancellationToken,
-                    dataStore).ConfigureAwait(false);
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        clientSecrets, scopes, "user", cancellationToken, dataStore)
+                    .ConfigureAwait(false);
 
                 OAuthRefreshToken = dataStore.RefreshToken;
                 OAuthAccessToken = dataStore.AccessToken;

@@ -525,7 +525,11 @@ namespace DevExpress.DataAccess.BigQuery
             {
                 if (behavior == CommandBehavior.SchemaOnly)
                 {
-                    var tableList = await bigQueryService.Tables.List(bigQueryCommand.Connection.ProjectId, bigQueryCommand.Connection.DataSetId).ExecuteAsync(cancellationToken).ConfigureAwait(false);
+                    var tableList = await bigQueryService.Tables
+                        .List(bigQueryCommand.Connection.ProjectId, bigQueryCommand.Connection.DataSetId)
+                        .ExecuteAsync(cancellationToken)
+                        .ConfigureAwait(false);
+
                     tables = tableList.Tables.GetEnumerator();
                 }
                 else
