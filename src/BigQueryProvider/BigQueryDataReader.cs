@@ -208,11 +208,7 @@ namespace DevExpress.DataAccess.BigQuery
         public override bool NextResult()
         {
             DisposeCheck();
-
-            if (behavior == CommandBehavior.SchemaOnly)
-                return tables.MoveNext();
-
-            return false;
+            return behavior == CommandBehavior.SchemaOnly && tables.MoveNext();
         }
 
         /// <summary>
@@ -458,7 +454,7 @@ namespace DevExpress.DataAccess.BigQuery
         public override string GetDataTypeName(int ordinal)
         {
             DisposeCheck();
-            return GetFieldType(ordinal).Name;
+            return GetFieldType(ordinal)?.Name;
         }
 
         /// <summary>
@@ -508,7 +504,7 @@ namespace DevExpress.DataAccess.BigQuery
         {
             DisposeCheck();
             RangeCheck(ordinal);
-            return enumerator.Current.F[ordinal].V;
+            return enumerator.Current?.F[ordinal].V;
         }
 
         /// <summary>
@@ -624,10 +620,9 @@ namespace DevExpress.DataAccess.BigQuery
 
             var bigQueryType = BigQueryTypeConverter.ToBigQueryDbType(schema.Fields[ordinal].Type);
 
-            if (bigQueryType == BigQueryDbType.Timestamp)
-                return UnixTimeStampToDateTime(value);
-
-            return Convert.ChangeType(value, BigQueryTypeConverter.ToType(schema.Fields[ordinal].Type), CultureInfo.InvariantCulture);
+            return bigQueryType == BigQueryDbType.Timestamp
+                ? UnixTimeStampToDateTime(value)
+                : Convert.ChangeType(value, BigQueryTypeConverter.ToType(schema.Fields[ordinal].Type), CultureInfo.InvariantCulture);
         }
 
         private string PrepareCommandText(BigQueryCommand command)

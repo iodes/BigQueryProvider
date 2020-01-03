@@ -195,7 +195,9 @@ namespace DevExpress.DataAccess.BigQuery
             using (var dbDataReader = await ExecuteDbDataReaderAsync(CommandBehavior.Default, cancellationToken).ConfigureAwait(false))
             {
                 while (await dbDataReader.NextResultAsync(cancellationToken).ConfigureAwait(false))
-                    ;
+                {
+                    // Skip
+                }
 
                 return dbDataReader.RecordsAffected;
             }
@@ -217,7 +219,12 @@ namespace DevExpress.DataAccess.BigQuery
             }
             catch (AggregateException e)
             {
-                throw e.Flatten().InnerException;
+                var innerException = e.Flatten().InnerException;
+
+                if (innerException != null)
+                    throw innerException;
+
+                throw;
             }
         }
 
@@ -259,7 +266,12 @@ namespace DevExpress.DataAccess.BigQuery
             }
             catch (AggregateException e)
             {
-                throw e.Flatten().InnerException;
+                var innerException = e.Flatten().InnerException;
+
+                if (innerException != null)
+                    throw innerException;
+
+                throw;
             }
         }
 
@@ -289,7 +301,12 @@ namespace DevExpress.DataAccess.BigQuery
             }
             catch (AggregateException e)
             {
-                throw e.Flatten().InnerException;
+                var innerException = e.Flatten().InnerException;
+
+                if (innerException != null)
+                    throw innerException;
+
+                throw;
             }
         }
 
