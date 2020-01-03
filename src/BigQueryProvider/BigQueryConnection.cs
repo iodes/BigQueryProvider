@@ -23,6 +23,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using DevExpress.DataAccess.BigQuery.Extensions;
 using DevExpress.DataAccess.BigQuery.Native;
 using Google;
 using Google.Apis.Auth.OAuth2;
@@ -127,21 +128,19 @@ namespace DevExpress.DataAccess.BigQuery
 
         internal string DataSetId
         {
-            get => (string)connectionStringBuilder["DataSetId"];
-
+            get => (string)connectionStringBuilder.SafeGetValue("DataSetId", string.Empty);
             set
             {
-                if ((string)connectionStringBuilder["DataSetId"] == value)
-                    return;
-
-                connectionStringBuilder["DataSetId"] = value;
-                ConnectionString = connectionStringBuilder.ConnectionString;
+                if (connectionStringBuilder.SafeSetValue("DataSetId", value))
+                {
+                    ConnectionString = connectionStringBuilder.ConnectionString;
+                }
             }
         }
 
         private string OAuthRefreshToken
         {
-            get => connectionStringBuilder.ContainsKey("OAuthRefreshToken") ? (string)connectionStringBuilder["OAuthRefreshToken"] : null;
+            get => (string)connectionStringBuilder.SafeGetValue("OAuthRefreshToken");
             set
             {
                 connectionStringBuilder["OAuthRefreshToken"] = value;
@@ -151,7 +150,7 @@ namespace DevExpress.DataAccess.BigQuery
 
         private string OAuthAccessToken
         {
-            get => connectionStringBuilder.ContainsKey("OAuthAccessToken") ? (string)connectionStringBuilder["OAuthAccessToken"] : null;
+            get => (string)connectionStringBuilder.SafeGetValue("OAuthAccessToken");
             set
             {
                 connectionStringBuilder["OAuthAccessToken"] = value;
@@ -170,13 +169,15 @@ namespace DevExpress.DataAccess.BigQuery
             }
         }
 
-        private string OAuthClientId => (string)connectionStringBuilder["OAuthClientId"];
+        private string OAuthClientId => (string)connectionStringBuilder.SafeGetValue("OAuthClientId");
 
-        private string OAuthClientSecret => (string)connectionStringBuilder["OAuthClientSecret"];
+        private string OAuthClientSecret => (string)connectionStringBuilder.SafeGetValue("OAuthClientSecret");
 
-        private string ServiceAccountEmail => connectionStringBuilder.ContainsKey("ServiceAccountEmail") ? (string)connectionStringBuilder["ServiceAccountEmail"] : string.Empty;
+        private string ServiceAccount => (string)connectionStringBuilder.SafeGetValue("ServiceAccount", string.Empty);
 
-        private string PrivateKeyFileName => connectionStringBuilder.ContainsKey("PrivateKeyFileName") ? (string)connectionStringBuilder["PrivateKeyFileName"] : string.Empty;
+        private string ServiceAccountEmail => (string)connectionStringBuilder.SafeGetValue("ServiceAccountEmail", string.Empty);
+
+        private string PrivateKeyFileName => (string)connectionStringBuilder.SafeGetValue("PrivateKeyFileName", string.Empty);
 
         private bool IsOpened => state == ConnectionState.Open;
 
@@ -371,26 +372,7 @@ namespace DevExpress.DataAccess.BigQuery
             IConfigurableHttpClientInitializer credential;
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (string.IsNullOrEmpty(PrivateKeyFileName))
-            {
-                var dataStore = new DataStore(OAuthRefreshToken, OAuthAccessToken);
-
-                var clientSecrets = new ClientSecrets
-                {
-                    ClientId = OAuthClientId,
-                    ClientSecret = OAuthClientSecret
-                };
-
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets,
-                    scopes,
-                    "user",
-                    cancellationToken,
-                    dataStore).ConfigureAwait(false);
-
-                OAuthRefreshToken = dataStore.RefreshToken;
-                OAuthAccessToken = dataStore.AccessToken;
-            }
-            else
+            if (!string.IsNullOrEmpty(PrivateKeyFileName))
             {
                 switch (Path.GetExtension(PrivateKeyFileName).ToLower())
                 {
@@ -411,6 +393,29 @@ namespace DevExpress.DataAccess.BigQuery
                     default:
                         throw new BigQueryException($"Supplied key file '{PrivateKeyFileName}' is not supported.");
                 }
+            }
+            else if (!string.IsNullOrEmpty(ServiceAccount))
+            {
+                credential = GoogleCredential.FromJson(ServiceAccount).CreateScoped(scopes);
+            }
+            else
+            {
+                var dataStore = new DataStore(OAuthRefreshToken, OAuthAccessToken);
+
+                var clientSecrets = new ClientSecrets
+                {
+                    ClientId = OAuthClientId,
+                    ClientSecret = OAuthClientSecret
+                };
+
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets,
+                    scopes,
+                    "user",
+                    cancellationToken,
+                    dataStore).ConfigureAwait(false);
+
+                OAuthRefreshToken = dataStore.RefreshToken;
+                OAuthAccessToken = dataStore.AccessToken;
             }
 
             return new BigqueryService(new BaseClientService.Initializer
