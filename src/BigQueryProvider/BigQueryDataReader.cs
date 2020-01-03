@@ -175,14 +175,15 @@ namespace DevExpress.DataAccess.BigQuery
         {
             DisposeCheck();
 
-            if (tables.Current == null)
-                return null;
-
+            var dataTable = new DataTable();
             var projectId = bigQueryCommand.Connection.ProjectId;
             var dataSetId = bigQueryCommand.Connection.DataSetId;
-            var tableId = tables.Current.TableReference.TableId;
 
-            var dataTable = new DataTable { TableName = tableId };
+            if (tables?.Current == null)
+                return dataTable;
+
+            var tableId = tables.Current.TableReference.TableId;
+            dataTable.TableName = tableId;
             dataTable.Columns.Add("ColumnName", typeof(string));
             dataTable.Columns.Add("DataType", typeof(Type));
 
@@ -208,7 +209,7 @@ namespace DevExpress.DataAccess.BigQuery
         public override bool NextResult()
         {
             DisposeCheck();
-            return behavior == CommandBehavior.SchemaOnly && tables.MoveNext();
+            return tables?.MoveNext() ?? false;
         }
 
         /// <summary>
@@ -523,7 +524,7 @@ namespace DevExpress.DataAccess.BigQuery
 
             try
             {
-                if (behavior == CommandBehavior.SchemaOnly)
+                if (!string.IsNullOrEmpty(bigQueryCommand.Connection.DataSetId))
                 {
                     var tableList = await bigQueryService.Tables
                         .List(bigQueryCommand.Connection.ProjectId, bigQueryCommand.Connection.DataSetId)
@@ -531,14 +532,14 @@ namespace DevExpress.DataAccess.BigQuery
                         .ConfigureAwait(false);
 
                     tables = tableList.Tables.GetEnumerator();
+                    tables?.MoveNext();
                 }
-                else
-                {
-                    ((BigQueryParameterCollection)bigQueryCommand.Parameters).Validate();
-                    var request = CreateRequest();
-                    var queryResponse = await request.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-                    ProcessQueryResponse(queryResponse);
-                }
+
+                ((BigQueryParameterCollection)bigQueryCommand.Parameters).Validate();
+                var request = CreateRequest();
+                var queryResponse = await request.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+
+                ProcessQueryResponse(queryResponse);
             }
             catch (GoogleApiException e)
             {
