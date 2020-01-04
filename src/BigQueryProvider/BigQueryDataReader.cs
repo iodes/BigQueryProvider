@@ -569,6 +569,15 @@ namespace DevExpress.DataAccess.BigQuery
                 UseLegacySql = !IsStandardSql
             };
 
+            if (!string.IsNullOrEmpty(bigQueryCommand.Connection.DataSetId))
+            {
+                queryRequest.DefaultDataset = new DatasetReference
+                {
+                    DatasetId = bigQueryCommand.Connection.DataSetId,
+                    ProjectId = bigQueryCommand.Connection.ProjectId
+                };
+            }
+
             if (IsStandardSql)
             {
                 queryRequest.QueryParameters = new List<QueryParameter>();

@@ -259,7 +259,7 @@ namespace DevExpress.DataAccess.BigQuery
         /// Returns a list of datasets available in the current Google Cloud Platform project.
         /// </summary>
         /// <returns>an array of System.String values containing names of available datasets.</returns>
-        public string[] GetDataSetNames()
+        public IEnumerable<string> GetDataSetNames()
         {
             CheckDisposed();
             CheckOpen();

@@ -10,6 +10,7 @@
     <Authors>CHEQUER</Authors>
     <Description>Google Big Data Provider for ADO.NET</Description>
     <PackageIcon>Logo.png</PackageIcon>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
