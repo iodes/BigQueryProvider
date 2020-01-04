@@ -34,25 +34,21 @@ namespace DevExpress.DataAccess.BigQuery
     /// </summary>
     public class BigQueryDataReader : DbDataReader
     {
-        private const char parameterPrefix = '@';
-        private readonly CommandBehavior behavior;
-
-        private readonly BigQueryCommand bigQueryCommand;
-        private readonly BigqueryService bigQueryService;
+        #region Fields
         private bool disposed;
         private IEnumerator<TableRow> enumerator;
         private int fieldsCount;
         private IList<TableRow> rows;
         private TableSchema schema;
-        private IEnumerator<TableList.TablesData> tables;
+        #endregion
 
-        internal BigQueryDataReader(CommandBehavior behavior, BigQueryCommand command, BigqueryService service)
-        {
-            this.behavior = behavior;
-            bigQueryService = service;
-            bigQueryCommand = command;
-        }
+        #region Constants
+        private const char parameterPrefix = '@';
+        private readonly BigQueryCommand bigQueryCommand;
+        private readonly BigqueryService bigQueryService;
+        #endregion
 
+        #region Properties
         private bool IsStandardSql => bigQueryCommand.Connection.IsStandardSql;
 
         /// <summary>
@@ -146,6 +142,15 @@ namespace DevExpress.DataAccess.BigQuery
                 return rows != null && rows.Count > 0;
             }
         }
+        #endregion
+
+        #region Constructor
+        internal BigQueryDataReader(BigQueryCommand command, BigqueryService service)
+        {
+            bigQueryService = service;
+            bigQueryCommand = command;
+        }
+        #endregion
 
         /// <summary>
         /// Closes the current BigQueryDataReader.
@@ -176,27 +181,21 @@ namespace DevExpress.DataAccess.BigQuery
             DisposeCheck();
 
             var dataTable = new DataTable();
-            var projectId = bigQueryCommand.Connection.ProjectId;
-            var dataSetId = bigQueryCommand.Connection.DataSetId;
-
-            if (tables?.Current == null)
-                return dataTable;
-
-            var tableId = tables.Current.TableReference.TableId;
-            dataTable.TableName = tableId;
             dataTable.Columns.Add("ColumnName", typeof(string));
+            dataTable.Columns.Add("Description", typeof(string));
             dataTable.Columns.Add("DataType", typeof(Type));
+            dataTable.Columns.Add("ETag", typeof(string));
+            dataTable.Columns.Add("Mode", typeof(string));
 
-            try
+            foreach (var field in schema.Fields)
             {
-                var tableSchema = bigQueryService.Tables.Get(projectId, dataSetId, tableId).Execute();
-
-                foreach (var tableFieldSchema in tableSchema.Schema.Fields)
-                    dataTable.Rows.Add(tableFieldSchema.Name, BigQueryTypeConverter.ToType(tableFieldSchema.Type));
-            }
-            catch (GoogleApiException e)
-            {
-                throw e.Wrap();
+                dataTable.Rows.Add(
+                    field.Name,
+                    field.Description,
+                    BigQueryTypeConverter.ToType(field.Type),
+                    field.ETag,
+                    field.Mode
+                );
             }
 
             return dataTable;
@@ -209,7 +208,7 @@ namespace DevExpress.DataAccess.BigQuery
         public override bool NextResult()
         {
             DisposeCheck();
-            return tables?.MoveNext() ?? false;
+            return false;
         }
 
         /// <summary>
@@ -524,20 +523,11 @@ namespace DevExpress.DataAccess.BigQuery
 
             try
             {
-                if (!string.IsNullOrEmpty(bigQueryCommand.Connection.DataSetId))
-                {
-                    var tableList = await bigQueryService.Tables
-                        .List(bigQueryCommand.Connection.ProjectId, bigQueryCommand.Connection.DataSetId)
-                        .ExecuteAsync(cancellationToken)
-                        .ConfigureAwait(false);
-
-                    tables = tableList.Tables.GetEnumerator();
-                    tables?.MoveNext();
-                }
-
                 ((BigQueryParameterCollection)bigQueryCommand.Parameters).Validate();
-                var request = CreateRequest();
-                var queryResponse = await request.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+
+                var queryResponse = await CreateRequest()
+                    .ExecuteAsync(cancellationToken)
+                    .ConfigureAwait(false);
 
                 ProcessQueryResponse(queryResponse);
             }
@@ -565,9 +555,19 @@ namespace DevExpress.DataAccess.BigQuery
 
             if (!IsStandardSql)
                 foreach (BigQueryParameter parameter in collection)
-                    bigQueryCommand.CommandText = bigQueryCommand.CommandText.Replace(parameterPrefix + parameter.ParameterName.TrimStart(parameterPrefix), ConvertToStringForLegacySql(parameter));
+                {
+                    bigQueryCommand.CommandText = bigQueryCommand.CommandText.Replace(parameterPrefix + parameter.ParameterName.TrimStart(parameterPrefix),
+                        ConvertToStringForLegacySql(parameter));
+                }
 
-            var queryRequest = new QueryRequest { Query = PrepareCommandText(bigQueryCommand), TimeoutMs = bigQueryCommand.CommandTimeout != 0 ? (int)TimeSpan.FromSeconds(bigQueryCommand.CommandTimeout).TotalMilliseconds : int.MaxValue, UseLegacySql = !IsStandardSql };
+            var queryRequest = new QueryRequest
+            {
+                Query = PrepareCommandText(bigQueryCommand),
+                TimeoutMs = bigQueryCommand.CommandTimeout != 0
+                    ? (int)TimeSpan.FromSeconds(bigQueryCommand.CommandTimeout).TotalMilliseconds
+                    : int.MaxValue,
+                UseLegacySql = !IsStandardSql
+            };
 
             if (IsStandardSql)
             {
@@ -598,19 +598,10 @@ namespace DevExpress.DataAccess.BigQuery
             if (queryResponse.JobComplete.HasValue && !queryResponse.JobComplete.Value)
                 throw new BigQueryException("Timeout is reached");
 
-            rows = queryResponse.Rows;
+            rows = queryResponse.Rows ?? new TableRow[] { };
             schema = queryResponse.Schema;
             fieldsCount = schema.Fields.Count;
-
-            if (rows != null)
-            {
-                enumerator = rows.GetEnumerator();
-            }
-            else
-            {
-                rows = new TableRow[] { };
-                enumerator = rows.GetEnumerator();
-            }
+            enumerator = rows.GetEnumerator();
         }
 
         private T ChangeValueType<T>(object value, int ordinal)
@@ -650,7 +641,7 @@ namespace DevExpress.DataAccess.BigQuery
         private void DisposeCheck()
         {
             if (disposed)
-                throw new ObjectDisposedException("DataReader disposed");
+                throw new ObjectDisposedException("This DataReader has already been disposed.");
         }
 
         private void RangeCheck(int index)

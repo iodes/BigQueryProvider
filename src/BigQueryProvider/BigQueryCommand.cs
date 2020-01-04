@@ -286,8 +286,9 @@ namespace DevExpress.DataAccess.BigQuery
         {
             cancellationToken.ThrowIfCancellationRequested();
             cancellationToken.Register(Cancel);
-            var reader = new BigQueryDataReader(behavior, this, Connection.Service);
+            var reader = new BigQueryDataReader(this, Connection.Service);
             await reader.InitializeAsync(cancellationToken).ConfigureAwait(false);
+
             return reader;
         }
 
