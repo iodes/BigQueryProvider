@@ -413,7 +413,7 @@ namespace DevExpress.DataAccess.BigQuery
             DisposeCheck();
 
             for (var i = 0; i < fieldsCount; i++)
-                values[i] = ChangeValueType(GetValue(i), i);
+                values[i] = GetValue(i);
 
             return values.Length;
         }
@@ -504,7 +504,7 @@ namespace DevExpress.DataAccess.BigQuery
         {
             DisposeCheck();
             RangeCheck(ordinal);
-            return enumerator.Current?.F[ordinal].V;
+            return ChangeValueType(enumerator.Current?.F[ordinal].V, ordinal);
         }
 
         /// <summary>
