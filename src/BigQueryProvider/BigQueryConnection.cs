@@ -122,7 +122,7 @@ namespace DevExpress.DataAccess.BigQuery
         /// </value>
         public override ConnectionState State => state;
 
-        internal BigqueryService Service { get; private set; }
+        public BigqueryService Service { get; private set; }
 
         public string ProjectId => (string)connectionStringBuilder["ProjectId"];
 
@@ -283,7 +283,7 @@ namespace DevExpress.DataAccess.BigQuery
         /// <returns>an array of System.String values containing names of available data tables.</returns>
         public IEnumerable<string> GetTableNames()
         {
-            return GetDataObjectNames("TABLE");
+            return GetTableObjectNames("TABLE");
         }
 
         /// <summary>
@@ -292,20 +292,56 @@ namespace DevExpress.DataAccess.BigQuery
         /// <returns>an array of System.String values containing names of available data views.</returns>
         public IEnumerable<string> GetViewNames()
         {
-            return GetDataObjectNames("VIEW");
+            return GetTableObjectNames("VIEW");
         }
 
-        private IEnumerable<string> GetDataObjectNames(string type)
+        /// <summary>
+        /// Returns a list of functions available in the current BigQuery dataset.
+        /// </summary>
+        /// <returns>an array of System.String values containing names of available data views.</returns>
+        public IEnumerable<string> GetFunctionNames()
+        {
+            return GetRoutineObjectNames("SCALAR_FUNCTION");
+        }
+
+        /// <summary>
+        /// Returns a list of procedures available in the current BigQuery dataset.
+        /// </summary>
+        /// <returns>an array of System.String values containing names of available data views.</returns>
+        public IEnumerable<string> GetProcedureNames()
+        {
+            return GetRoutineObjectNames("PROCEDURE");
+        }
+
+        private IEnumerable<string> GetTableObjectNames(string type)
         {
             CheckDisposed();
             CheckOpen();
 
             try
             {
-                return Service.Tables.List(ProjectId, DataSetId).Execute().Tables
-                    .Where(t => t.Type == type)
-                    .Select(t => t.TableReference.TableId)
-                    .ToArray();
+                return Service.Tables.List(ProjectId, DataSetId).Execute()?
+                           .Tables?.Where(t => t.Type == type)
+                           .Select(t => t.TableReference.TableId)
+                           .ToArray() ?? Enumerable.Empty<string>();
+            }
+            catch (GoogleApiException e)
+            {
+                throw e.Wrap();
+            }
+        }
+
+        private IEnumerable<string> GetRoutineObjectNames(string type)
+        {
+            CheckDisposed();
+            CheckOpen();
+
+            try
+            {
+                return Service.Routines.List(ProjectId, DataSetId).Execute()?
+                           .Routines?.Where(t => t.RoutineType == type)
+                           .Select(t => t.RoutineReference.RoutineId)
+                           .ToArray() ?? Enumerable.Empty<string>();
             }
             catch (GoogleApiException e)
             {
