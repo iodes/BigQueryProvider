@@ -609,7 +609,7 @@ namespace DevExpress.DataAccess.BigQuery
 
             rows = queryResponse.Rows ?? new TableRow[] { };
             schema = queryResponse.Schema;
-            fieldsCount = schema?.Fields?.Count ?? default;
+            fieldsCount = queryResponse.TotalRows != null ? schema?.Fields?.Count ?? default : default;
             enumerator = rows.GetEnumerator();
         }
 
